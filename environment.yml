@@ -5,6 +5,7 @@ channels:
   - conda-forge
 dependencies:
   - python=3.7.10
+  - python-graphviz
   - pytest=6.2.5
   - pytest-cov=3.0.0
   - autopep8=1.6.0
