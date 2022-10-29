@@ -1,0 +1,2 @@
+CURRENCY = '£'
+PRECISION = 2
