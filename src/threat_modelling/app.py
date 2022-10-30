@@ -1,85 +1,152 @@
+# This Python file has the codes of the main application required to draw and visualise an attack tree.
+
 import logging
 
 import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 
-import json
+from constants import (
+    FIRST_NODE_THREAT_CATEGORY,
+    FIRST_NODE_THREAT_ID,
+    FONT_FAMILY,
+    FONT_SIZE,
+    OUTPUT_FILE_ATTACK_TREE,
+    PATH_TO_PRE_DIGITAL_JSON,
+    PRECISION,
+    SEED_NODE_POS
+)
 
-from constants import CURRENCY, PRECISION
+from utils import (
+    extract_threats_dict_from_json,
+    format_text_on_node,
+    get_list_of_probs_and_monet_amounts_from_children_dict
+)
 
 
-with open('configs/pre_digitalisation.json') as json_file:
-    try:
-        threats_dict = json.load(json_file)
-    except ValueError as except_val_err:
-        logging.error(except_val_err)
+def visualise_and_save_attack_tree(
+        path_to_json: str = PATH_TO_PRE_DIGITAL_JSON,
+        output_file_name: str = OUTPUT_FILE_ATTACK_TREE
+) -> None:
+    """
+    Visualise and save an attack tree to an .svg file for avoiding any loss in resolution as zoom is applied on the
+    figure for ease of visualisation.
 
-children_nodes_list_of_dicts = threats_dict['threats']['has_children']
-num_of_children_nodes = len(children_nodes_list_of_dicts)
-num_of_children_of_child_nodes = 0
+    Args:
+        path_to_json: str
+                    The path to a json file with security threats, and the monetary value and the probability for
+                    each threat on the leaf nodes of the attack tree.
+        output_file_name: str
+                        The output file name of the attack tree visualised in this function.
+    """
 
-list_of_probs = []
-list_of_monet_amounts = []
+    # Extract a dictionary of security threats from a given json file specified in the argument of this function.
+    threats_dict = extract_threats_dict_from_json(path_to_json)
 
-for child_node_dict in children_nodes_list_of_dicts:
-    if 'has_children' in child_node_dict.keys():
-        children_of_child_node_dict = child_node_dict['has_children']
-        independent_prob = 1
-        sum_monetary_amount = 0
-        for child_of_child_node in children_of_child_node_dict:
-            num_of_children_of_child_nodes += 1
-            independent_prob *= child_of_child_node['probability']
-            sum_monetary_amount += child_of_child_node['monetary_amount']
+    # Get the list of dictionaries of the children nodes, such that a list of their associated monetary amounts
+    # and probabilities can then be extracted.
+    children_nodes_list_of_dicts = threats_dict['threats']['has_children']
+    num_of_children_nodes = len(children_nodes_list_of_dicts)
+    logging.info('The number of children nodes (from the first node) is: ', num_of_children_nodes)
 
-        list_of_probs.append(independent_prob)
-        list_of_monet_amounts.append(sum_monetary_amount)
+    # Extract the lists of the monetary amounts and probabilities associated with the security threats represented
+    # by the above-mentioned children nodes to then be able to compute the total monetary amount that such threats
+    # could cost to the business, along with how likely that could occur on average (based on the list of extracted
+    # probabilities).
+    list_of_monet_amounts, list_of_probs = \
+        get_list_of_probs_and_monet_amounts_from_children_dict(children_nodes_list_of_dicts)
+
+    # The total probability is the average of the probabilities of each identified security threat occurring.
+    avg_prob = round(np.mean(list_of_probs), PRECISION)
+
+    total_monet_amount = 0
+
+    # The total monetary amount is the sum of the monetary amounts for each security threat identified.
+    for monet_amount in list_of_monet_amounts:
+        total_monet_amount += monet_amount
+
+    # Define the first node as that having ID equal to 1 and the threat's category equal to 'Combined' (each
+    # security threat that is a part of it was defined as per the STRIDE model in the input json file).
+    first_node = ''
+    if threats_dict['threats']['id'] == FIRST_NODE_THREAT_ID and \
+            threats_dict['threats']['category'] == FIRST_NODE_THREAT_CATEGORY:
+        first_node = format_text_on_node(
+            threat_name=threats_dict['threats']['name'],
+            monetary_amount=total_monet_amount,
+            prob=avg_prob
+        )
+        logging.info('The first node is: ', first_node)
     else:
-        list_of_probs.append(child_node_dict['probability'])
-        list_of_monet_amounts.append(child_node_dict['monetary_amount'])
+        logging.error(
+            f"The first node has not been defined correctly. Please ensure its threat id is '{FIRST_NODE_THREAT_ID}' "
+            f"and its threat category is '{FIRST_NODE_THREAT_CATEGORY}'."
+        )
 
-avg_prob = round(np.mean(list_of_probs), PRECISION)
+    # Define the graph object containing the attack tree wherein each node represents each security threat identified
+    # and each edge represents the relationship between a parent and a child node, such that all security threats
+    # can be visualised and understood within the context of an attack tree.
+    # N.B.: for ease of visualisation and optimisation of the space/canvas on the figure, the first node was placed
+    # at the centre of the figure and the other nodes stemming from it based on the STRIDE model, with the lowest/leaf
+    # nodes having their monetary amounts and probabilities defined in the json file, whilst their parent nodes'
+    # monetary amounts and probabilities were computed from those of such leaf nodes respectively by summing up the
+    # monetary amounts of the children nodes and multiplying the individual children nodes' probabilities
+    # (as considered independent events).
+    graph_obj = nx.Graph()
 
-total_monet_amount = 0
+    counter_child_node = 0
+    for child_node_dict in children_nodes_list_of_dicts:
+        child_node = format_text_on_node(
+            threat_name=child_node_dict['name'],
+            monetary_amount=list_of_monet_amounts[counter_child_node],
+            prob=list_of_probs[counter_child_node]
+        )
+        graph_obj.add_edge(first_node, child_node)
+        counter_child_node += 1
+        if 'has_children' in child_node_dict.keys():
+            children_of_child_node_dict = child_node_dict['has_children']
+            for child_of_child_node in children_of_child_node_dict:
+                child_of_child_node_text = format_text_on_node(
+                    threat_name=child_of_child_node['name'],
+                    monetary_amount=child_of_child_node['monetary_amount'],
+                    prob=child_of_child_node['probability']
+                )
+                graph_obj.add_edge(child_node, child_of_child_node_text)
 
-for monet_amount in list_of_monet_amounts:
-    total_monet_amount += monet_amount
+    edge_list = [(u, v) for (u, v, d) in graph_obj.edges(data=True)]
 
-if threats_dict['threats']['id'] == 1 and threats_dict['threats']['category']:
-    first_node = f"{threats_dict['threats']['name']}{': '}{CURRENCY}{str(total_monet_amount)}{' ('}{str(int(avg_prob*100))}{'%)'}"
+    # Define the position for all nodes, set consistently via a fixed number (seed) for reproducibility.
+    pos = nx.spring_layout(graph_obj, seed=SEED_NODE_POS)
 
-print('first_node is: ', first_node)
-print('num_of_children_nodes is: ', num_of_children_nodes)
-print('num_of_children_of_child_nodes is: ', num_of_children_of_child_nodes)
+    # Draw the nodes on the graph, each of which represents an identified security threat.
+    nx.draw_networkx_nodes(graph_obj, pos, node_size=12500)
 
-G = nx.Graph()
+    # Draw the edges on the graph, each of which representing the relationship between a parent node and its
+    # child/children.
+    nx.draw_networkx_edges(
+        graph_obj, pos, arrowsize=200, edgelist=edge_list, width=6, alpha=0.5, edge_color="b", style="dashed"
+    )
 
-counter_child_node = 0
-for child_node_dict in children_nodes_list_of_dicts:
-    child_node = f"{child_node_dict['name']}{': '}{CURRENCY}{list_of_monet_amounts[counter_child_node]}{' ('}{str(int(list_of_probs[counter_child_node]*100))}{'%)'}"
-    G.add_edge(first_node, child_node)
-    counter_child_node += 1
-    if 'has_children' in child_node_dict.keys():
-        children_of_child_node_dict = child_node_dict['has_children']
-        for child_of_child_node in children_of_child_node_dict:
-            G.add_edge(child_node, f"{child_of_child_node['name']}{': '}{CURRENCY}{child_of_child_node['monetary_amount']}{' ('}{str(int(child_of_child_node['probability']*100))}{'%)'}")
-            print(child_of_child_node)
+    # Draw the nodes' labels with the monetary amount and probability associated to an identified security threat.
+    nx.draw_networkx_labels(graph_obj, pos, font_size=FONT_SIZE, font_family=FONT_FAMILY)
 
-edge_list = [(u, v) for (u, v, d) in G.edges(data=True)]
+    # Show the attack tree on a pop-up window.
+    ax = plt.gca()
+    ax.margins(0.08)
+    plt.axis("off")
+    plt.tight_layout()
+    plt.show()
 
-pos = nx.spring_layout(G, seed=7)  # positions for all nodes - seed for reproducibility
+    # Save the attack tree to an .svg file for ease of visualisation, as its resolution is not impacted regardless of
+    # the zoom factor/percentage applied.
+    ax.figure.savefig(output_file_name, dpi=ax.figure.dpi)
 
-# Nodes
-nx.draw_networkx_nodes(G, pos, node_size=12500)
 
-# Edges
-nx.draw_networkx_edges(G, pos, arrowsize=200, edgelist=edge_list, width=6, alpha=0.5, edge_color="b", style="dashed")
+if __name__ == "__main__":
 
-# Nodes' labels
-nx.draw_networkx_labels(G, pos, font_size=6, font_family="sans-serif")
-
-ax = plt.gca()
-ax.margins(0.08)
-plt.axis("off")
-plt.tight_layout()
-plt.show()
+    # Define the path to the json file with the threats considered, and the associated monetary amounts and
+    # probabilities at the leaf nodes, as well as the name of the output file displaying the resulting attack tree.
+    # The function below will visualise and save the attack tree to an .svg file.
+    visualise_and_save_attack_tree(
+        path_to_json=PATH_TO_PRE_DIGITAL_JSON,
+        output_file_name=OUTPUT_FILE_ATTACK_TREE
+    )
