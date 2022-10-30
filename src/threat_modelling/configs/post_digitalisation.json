@@ -1,0 +1,15 @@
+{ "threats":
+  {"id": 1, "name": "Business impact", "category": "Combined", "has_children": [
+    {"id": 2, "name": "Financial impact", "category": "Financial risks", "has_children": [
+      {"id": 7, "name": "Expensive contractors", "category": "Financial risks", "probability": 0.7, "monetary_amount": 1500},
+      {"id": 8, "name": "Rework with contractors", "category": "Financial risks", "probability": 0.6, "monetary_amount": 500}]},
+    {"id": 3, "name": "Loss of knowledge", "category": "Competence risks", "has_children": [
+      {"id": 9, "name": "Contractors leaving", "category": "Competence risks", "probability": 0.3, "monetary_amount": 600}]},
+    {"id": 4, "name": "Data security", "category": "Data security risks", "has_children": [
+      {"id": 10, "name": "Unsecure platforms", "category": "Data security risks", "probability": 0.3, "monetary_amount": 850}]},
+    {"id": 5, "name": "Technical impact", "category": "Technical risks", "has_children": [
+      {"id": 11, "name": "Outsourcing web dev", "category": "Technical risks", "probability": 0.4, "monetary_amount": 900}]},
+    {"id": 6, "name": "Brand on social media", "category": "Behavioural and business environment-related risks", "has_children": [
+      {"id": 12, "name": "Diluted brand", "category": "Behavioural and business environment-related risks", "probability": 0.4, "monetary_amount": 1500}]}
+    ]}
+}

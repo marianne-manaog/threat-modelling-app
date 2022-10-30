@@ -1,0 +1,27 @@
+[build-system]
+requires = [
+    "setuptools<60.0",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "threat_modelling"
+description = "This package provides an application for threat modelling to visualise an attack tree and add business-relevant values to its nodes."
+readme = "README.md"
+requires-python = ">=3.7.10"
+
+[tool.black]
+line-length = 88
+target_version = ['py37']
+preview = true
+exclude = '''
+/(
+    \.eggs         # exclude common directories in the root of the project
+  | \.git
+  | \.mypy_cache
+  | \.vscode
+  | build
+  | dist
+)/
+'''
