@@ -76,7 +76,8 @@ path to a json file with the specifications of the attack tree as mentioned abov
     the security threat it represents, along with its associated monetary amount and probability of occurrence.
   - `get_list_of_probs_and_monet_amounts_from_children_dict` that extracts the list of probabilities and monetary 
     amounts from a list of dictionaries of children nodes of an attack tree. 
-  
+- the `constants.py` has the key constants used throughout the application for ease of maintainability and reusability.
+
 ### Instruction to execute the solution ###
 
 Run the `app.py` after inputting the `path_to_json` and `output_file_name` in the function 
@@ -85,11 +86,11 @@ will have the path of the json file to read the configuration of the attack tree
 name of the output image file to save this attack tree after visualising it.
 
 In particular:
-- To visualise and output the attack tree **pre-digitalisation**, please use the pass the constants 
+- To visualise and output the attack tree **pre-digitalisation**, please pass the constants 
 `PATH_TO_PRE_DIGITAL_JSON` and `OUTPUT_FILE_ATTACK_TREE` (defined in the `src/threat_modelling/constants.py` file) 
 to the argument `path_to_json` of the function `visualise_and_save_attack_tree` at the bottom of the `app.py` file.
 Thereafter, run the `app.py` file.
-- To visualise and output the attack tree **post-digitalisation**, please use the pass the constants 
+- To visualise and output the attack tree **post-digitalisation**, please pass the constants 
 `PATH_TO_POST_DIGITAL_JSON` and `OUTPUT_FILE_ATTACK_TREE_POST_DIGITAL` (defined in the 
 `src/threat_modelling/constants.py` file) to the argument `path_to_json` of the function 
 `visualise_and_save_attack_tree` at the bottom of the `app.py` file. Thereafter, run the `app.py` file.
