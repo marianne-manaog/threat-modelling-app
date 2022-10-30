@@ -2,8 +2,7 @@ import unittest
 
 from src.threat_modelling.utils import (
     format_text_on_node,
-    get_list_of_probs_and_monet_amounts_from_children_dict
-)
+    get_list_of_probs_and_monet_amounts_from_children_dict)
 
 
 class TestUtils(unittest.TestCase):

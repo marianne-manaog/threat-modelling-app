@@ -1,19 +1,12 @@
 # This Python file has all utility-related functions required to draw and visualise an attack tree.
 
-import logging
-
 import json
-
+import logging
 from typing import List, Tuple
 
-from .constants import (
-    COLON_AND_WHITESPACE,
-    CURRENCY,
-    FACTOR_PERCENT,
-    PATH_TO_PRE_DIGITAL_JSON,
-    PERCENT_AND_ROUND_BRACKET,
-    WHITESPACE_AND_ROUND_BRACKET
-)
+from .constants import (COLON_AND_WHITESPACE, CURRENCY, FACTOR_PERCENT,
+                        PATH_TO_PRE_DIGITAL_JSON, PERCENT_AND_ROUND_BRACKET,
+                        WHITESPACE_AND_ROUND_BRACKET)
 
 
 # The function is excluded from the test coverage as trivial (hence the '# pragma: no cover' marker).

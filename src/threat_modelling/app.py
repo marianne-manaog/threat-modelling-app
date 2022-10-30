@@ -6,22 +6,11 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 
-from .constants import (
-    FIRST_NODE_THREAT_CATEGORY,
-    FIRST_NODE_THREAT_ID,
-    FONT_FAMILY,
-    FONT_SIZE,
-    OUTPUT_FILE_ATTACK_TREE,
-    PATH_TO_PRE_DIGITAL_JSON,
-    PRECISION,
-    SEED_NODE_POS
-)
-
-from .utils import (
-    extract_threats_dict_from_json,
-    format_text_on_node,
-    get_list_of_probs_and_monet_amounts_from_children_dict
-)
+from .constants import (FIRST_NODE_THREAT_CATEGORY, FIRST_NODE_THREAT_ID,
+                        FONT_FAMILY, FONT_SIZE, OUTPUT_FILE_ATTACK_TREE,
+                        PATH_TO_PRE_DIGITAL_JSON, PRECISION, SEED_NODE_POS)
+from .utils import (extract_threats_dict_from_json, format_text_on_node,
+                    get_list_of_probs_and_monet_amounts_from_children_dict)
 
 
 def visualise_and_save_attack_tree(
