@@ -5,6 +5,7 @@ source = threat_modelling
 omit =
     */__init__.py
     */constants.py
+    src/threat_modelling/app.py
 
 exclude_lines =
     pragma: no cover

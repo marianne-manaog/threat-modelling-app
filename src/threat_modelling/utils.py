@@ -6,7 +6,7 @@ import json
 
 from typing import List, Tuple
 
-from constants import (
+from .constants import (
     COLON_AND_WHITESPACE,
     CURRENCY,
     FACTOR_PERCENT,
@@ -16,7 +16,8 @@ from constants import (
 )
 
 
-def extract_threats_dict_from_json(path_to_json: str = PATH_TO_PRE_DIGITAL_JSON) -> dict:
+# The function is excluded from the test coverage as trivial (hence the '# pragma: no cover' marker).
+def extract_threats_dict_from_json(path_to_json: str = PATH_TO_PRE_DIGITAL_JSON) -> dict:  # pragma: no cover
     """
     Extract a dictionary of security threats from a json file.
 
@@ -47,7 +48,7 @@ def format_text_on_node(threat_name: str, monetary_amount: float, prob: float) -
         monetary_amount: float
                         The monetary amount of the impact on the business caused by a security threat.
         prob: float
-            The probability of a security threat occurring.
+            The probability of a security threat occurring (from 0 to 1).
 
     Returns:
             The formatted text to display on a node describing its associated security threat.
@@ -59,7 +60,7 @@ def format_text_on_node(threat_name: str, monetary_amount: float, prob: float) -
     # - the probability of it occurring in %.
     formatted_str = f"" \
                     f"{threat_name}{COLON_AND_WHITESPACE}{CURRENCY}{str(monetary_amount)}" \
-                    f"{WHITESPACE_AND_ROUND_BRACKET}{str(int(prob * FACTOR_PERCENT))}{PERCENT_AND_ROUND_BRACKET}"
+                    f"{WHITESPACE_AND_ROUND_BRACKET}{str(prob * FACTOR_PERCENT)}{PERCENT_AND_ROUND_BRACKET}"
 
     return formatted_str
 

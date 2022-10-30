@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 
-from constants import (
+from .constants import (
     FIRST_NODE_THREAT_CATEGORY,
     FIRST_NODE_THREAT_ID,
     FONT_FAMILY,
@@ -17,7 +17,7 @@ from constants import (
     SEED_NODE_POS
 )
 
-from utils import (
+from .utils import (
     extract_threats_dict_from_json,
     format_text_on_node,
     get_list_of_probs_and_monet_amounts_from_children_dict
@@ -49,10 +49,10 @@ def visualise_and_save_attack_tree(
     num_of_children_nodes = len(children_nodes_list_of_dicts)
     logging.info('The number of children nodes (from the first node) is: ', num_of_children_nodes)
 
-    # Extract the lists of the monetary amounts and probabilities associated with the security threats represented
-    # by the above-mentioned children nodes to then be able to compute the total monetary amount that such threats
-    # could cost to the business, along with how likely that could occur on average (based on the list of extracted
-    # probabilities).
+    # Extract the lists of the monetary amounts (in £) and probabilities (from 0 to 1) associated with the security
+    # threats represented by the above-mentioned children nodes to then be able to compute the total monetary amount
+    # that such threats could cost to the business, along with how likely that could occur on average (based on the
+    # list of extracted probabilities).
     list_of_monet_amounts, list_of_probs = \
         get_list_of_probs_and_monet_amounts_from_children_dict(children_nodes_list_of_dicts)
 
