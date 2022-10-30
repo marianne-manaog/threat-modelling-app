@@ -53,7 +53,8 @@ def format_text_on_node(threat_name: str, monetary_amount: float, prob: float) -
     # - the probability of it occurring in %.
     formatted_str = f"" \
                     f"{threat_name}{COLON_AND_WHITESPACE}{CURRENCY}{str(monetary_amount)}" \
-                    f"{WHITESPACE_AND_ROUND_BRACKET}{str(prob * FACTOR_PERCENT)}{PERCENT_AND_ROUND_BRACKET}"
+                    f"{WHITESPACE_AND_ROUND_BRACKET}{str(int(prob * FACTOR_PERCENT))}" \
+                    f"{PERCENT_AND_ROUND_BRACKET}"
 
     return formatted_str
 
@@ -91,13 +92,13 @@ def get_list_of_probs_and_monet_amounts_from_children_dict(
                 independent_prob *= child_of_child_node['probability']
                 sum_monetary_amount += child_of_child_node['monetary_amount']
 
-            list_of_probs.append(independent_prob)
+            list_of_probs.append(round(independent_prob, PRECISION))
             list_of_monet_amounts.append(sum_monetary_amount)
 
             logging.info('The number of (sub-)children nodes (from the child nodes) is: ',
                          num_of_children_of_child_nodes)
         else:
-            list_of_probs.append(child_node_dict['probability'])
+            list_of_probs.append(round(child_node_dict['probability'], PRECISION))
             list_of_monet_amounts.append(child_node_dict['monetary_amount'])
 
     return list_of_monet_amounts, list_of_probs

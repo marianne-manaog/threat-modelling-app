@@ -62,7 +62,7 @@ def visualise_and_save_attack_tree(
         first_node = format_text_on_node(
             threat_name=threats_dict['threats']['name'],
             monetary_amount=total_monet_amount,
-            prob=avg_prob
+            prob=round(avg_prob, PRECISION)
         )
         logging.info('The first node is: ', first_node)
     else:
@@ -87,7 +87,7 @@ def visualise_and_save_attack_tree(
         child_node = format_text_on_node(
             threat_name=child_node_dict['name'],
             monetary_amount=list_of_monet_amounts[counter_child_node],
-            prob=list_of_probs[counter_child_node]
+            prob=round(list_of_probs[counter_child_node], PRECISION)
         )
         graph_obj.add_edge(first_node, child_node)
         counter_child_node += 1
@@ -97,7 +97,7 @@ def visualise_and_save_attack_tree(
                 child_of_child_node_text = format_text_on_node(
                     threat_name=child_of_child_node['name'],
                     monetary_amount=child_of_child_node['monetary_amount'],
-                    prob=child_of_child_node['probability']
+                    prob=round(child_of_child_node['probability'], PRECISION)
                 )
                 graph_obj.add_edge(child_node, child_of_child_node_text)
 
