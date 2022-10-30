@@ -49,7 +49,10 @@ To install the project as a package in editable (development) mode:
 
 ### Linting ###
 
-For linting to ensure a consistent ordering of imports, the `isort` library was leveraged to enforce it automatically 
+Both `flake8` and `pylint` were leveraged for linting the codes and, based on their initial reports, the codes 
+were enhanced accordingly and follow-up/improved reports were generated.
+
+For linting to ensure a consistent ordering of imports, the `isort` library was used to enforce it automatically 
 throughout the codebase by running the following commands: 
 
 - `isort src` for the source codes, and 
