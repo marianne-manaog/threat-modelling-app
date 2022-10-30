@@ -14,8 +14,10 @@ FIRST_NODE_THREAT_ID = 1
 FONT_FAMILY = "sans-serif"
 FONT_SIZE = 6
 
+OUTPUT_FILE_ATTACK_TREE_POST_DIGITAL = 'attack_tree_post_digitalisation.svg'
 OUTPUT_FILE_ATTACK_TREE = 'attack_tree_pre_digitalisation.svg'
 
+PATH_TO_POST_DIGITAL_JSON = 'configs/post_digitalisation.json'
 PATH_TO_PRE_DIGITAL_JSON = 'configs/pre_digitalisation.json'
 
 PERCENT_AND_ROUND_BRACKET = '%)'

@@ -5,12 +5,12 @@ import logging
 from typing import List, Tuple
 
 from .constants import (COLON_AND_WHITESPACE, CURRENCY, FACTOR_PERCENT,
-                        PATH_TO_PRE_DIGITAL_JSON, PERCENT_AND_ROUND_BRACKET,
+                        PERCENT_AND_ROUND_BRACKET, PRECISION,
                         WHITESPACE_AND_ROUND_BRACKET)
 
 
 # The function is excluded from the test coverage as trivial (hence the '# pragma: no cover' marker).
-def extract_threats_dict_from_json(path_to_json: str = PATH_TO_PRE_DIGITAL_JSON) -> dict:  # pragma: no cover
+def extract_threats_dict_from_json(path_to_json: str) -> dict:  # pragma: no cover
     """
     Extract a dictionary of security threats from a json file.
 

@@ -8,25 +8,27 @@ import numpy as np
 
 from .constants import (FIRST_NODE_THREAT_CATEGORY, FIRST_NODE_THREAT_ID,
                         FONT_FAMILY, FONT_SIZE, OUTPUT_FILE_ATTACK_TREE,
-                        PATH_TO_PRE_DIGITAL_JSON, PRECISION, SEED_NODE_POS)
+                        OUTPUT_FILE_ATTACK_TREE_POST_DIGITAL,
+                        PATH_TO_POST_DIGITAL_JSON, PATH_TO_PRE_DIGITAL_JSON,
+                        PRECISION, SEED_NODE_POS)
 from .utils import (extract_threats_dict_from_json, format_text_on_node,
                     get_list_of_probs_and_monet_amounts_from_children_dict)
 
 
 def visualise_and_save_attack_tree(
-        path_to_json: str = PATH_TO_PRE_DIGITAL_JSON,
-        output_file_name: str = OUTPUT_FILE_ATTACK_TREE
+        output_file_name: str,
+        path_to_json: str
 ) -> None:
     """
     Visualise and save an attack tree to an .svg file for avoiding any loss in resolution as zoom is applied on the
     figure for ease of visualisation.
 
     Args:
+        output_file_name: str
+                        The output file name of the attack tree visualised in this function.
         path_to_json: str
                     The path to a json file with security threats, and the monetary value and the probability for
                     each threat on the leaf nodes of the attack tree.
-        output_file_name: str
-                        The output file name of the attack tree visualised in this function.
     """
 
     # Extract a dictionary of security threats from a given json file specified in the argument of this function.
@@ -136,6 +138,6 @@ if __name__ == "__main__":
     # probabilities at the leaf nodes, as well as the name of the output file displaying the resulting attack tree.
     # The function below will visualise and save the attack tree to an .svg file.
     visualise_and_save_attack_tree(
-        path_to_json=PATH_TO_PRE_DIGITAL_JSON,
-        output_file_name=OUTPUT_FILE_ATTACK_TREE
+        path_to_json=PATH_TO_POST_DIGITAL_JSON,
+        output_file_name=OUTPUT_FILE_ATTACK_TREE_POST_DIGITAL
     )
