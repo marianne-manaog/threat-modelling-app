@@ -49,6 +49,18 @@ To install the project as a package in editable (development) mode:
 
 ### Linting ###
 
+For linting to ensure a consistent ordering of imports, the `isort` library was leveraged to enforce it automatically 
+throughout the codebase by running the following commands: 
+
+- `isort src` for the source codes, and 
+- `isort tests` for the unit tests-related codes.
+
+For linting to ensure adherence of the Python codes to PEP-8, besides leveraging the 'Problems' tab at the bottom of the 
+PyCharm IDE throughout the development, the `autopep8` library was leveraged to enforce it automatically throughout the 
+codebase by running the following command: 
+
+`autopep8 --in-place --recursive .`
+
 ### Future work ###
 
 ### References ###

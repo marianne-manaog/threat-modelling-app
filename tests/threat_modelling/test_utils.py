@@ -25,5 +25,6 @@ class TestUtils(unittest.TestCase):
 
         self.assertIsInstance(result_list_of_monet_amounts, list)
         self.assertIsInstance(result_list_of_probs, list)
-        self.assertEqual(expected_list_of_monet_amounts, result_list_of_monet_amounts)
+        self.assertEqual(expected_list_of_monet_amounts,
+                         result_list_of_monet_amounts)
         self.assertEqual(expected_list_of_probs, result_list_of_probs)

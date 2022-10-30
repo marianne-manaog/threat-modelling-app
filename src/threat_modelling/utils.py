@@ -98,7 +98,8 @@ def get_list_of_probs_and_monet_amounts_from_children_dict(
             logging.info('The number of (sub-)children nodes (from the child nodes) is: ',
                          num_of_children_of_child_nodes)
         else:
-            list_of_probs.append(round(child_node_dict['probability'], PRECISION))
+            list_of_probs.append(
+                round(child_node_dict['probability'], PRECISION))
             list_of_monet_amounts.append(child_node_dict['monetary_amount'])
 
     return list_of_monet_amounts, list_of_probs

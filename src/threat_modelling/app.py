@@ -38,14 +38,16 @@ def visualise_and_save_attack_tree(
     # and probabilities can then be extracted.
     children_nodes_list_of_dicts = threats_dict['threats']['has_children']
     num_of_children_nodes = len(children_nodes_list_of_dicts)
-    logging.info('The number of children nodes (from the first node) is: ', num_of_children_nodes)
+    logging.info(
+        'The number of children nodes (from the first node) is: ', num_of_children_nodes)
 
     # Extract the lists of the monetary amounts (in £) and probabilities (from 0 to 1) associated with the security
     # threats represented by the above-mentioned children nodes to then be able to compute the total monetary amount
     # that such threats could cost to the business, along with how likely that could occur on average (based on the
     # list of extracted probabilities).
     list_of_monet_amounts, list_of_probs = \
-        get_list_of_probs_and_monet_amounts_from_children_dict(children_nodes_list_of_dicts)
+        get_list_of_probs_and_monet_amounts_from_children_dict(
+            children_nodes_list_of_dicts)
 
     # The total probability is the average of the probabilities of each identified security threat occurring.
     avg_prob = round(np.mean(list_of_probs), PRECISION)
@@ -118,7 +120,8 @@ def visualise_and_save_attack_tree(
     )
 
     # Draw the nodes' labels with the monetary amount and probability associated to an identified security threat.
-    nx.draw_networkx_labels(graph_obj, pos, font_size=FONT_SIZE, font_family=FONT_FAMILY)
+    nx.draw_networkx_labels(
+        graph_obj, pos, font_size=FONT_SIZE, font_family=FONT_FAMILY)
 
     # Show the attack tree on a pop-up window.
     ax = plt.gca()
