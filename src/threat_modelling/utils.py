@@ -46,7 +46,8 @@ def format_text_on_node(
 ) -> str:
     """
     Format the text on a node describing the security
-    threat it represents.
+    threat it represents, along with its associated
+    monetary amount and probability of occurrence.
 
     Args:
         threat_name: str
