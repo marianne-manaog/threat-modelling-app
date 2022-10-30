@@ -1,0 +1,25 @@
+# This Python file contains dummy lists used for testing purposes.
+
+children_nodes_list_of_dicts = [
+    {'id': 2, 'name': 'Spoofed identities', 'category': 'Spoofing identity', 'has_children': [
+        {'id': 8, 'name': 'Orders to wrong email', 'category': 'Spoofing identity', 'probability': 0.3,
+         'monetary_amount': 1000},
+        {'id': 9, 'name': 'Unencrypted email', 'category': 'Spoofing identity', 'probability': 0.9,
+         'monetary_amount': 800}]},
+    {'id': 3, 'name': 'Loss of delivery data', 'category': 'Tampering with data', 'has_children': [
+        {'id': 10, 'name': 'Delivery data on old PC', 'category': 'Tampering with data', 'probability': 0.6,
+         'monetary_amount': 2000}]}, {'id': 4, 'name': 'Unidentified users', 'category': 'Repudiation',
+                                      'has_children': [
+                                          {'id': 11, 'name': 'Actions not logged', 'category': 'Repudiation',
+                                           'probability': 0.4, 'monetary_amount': 1250}]},
+    {'id': 5, 'name': 'Leaked data', 'category': 'Information disclosure', 'has_children': [
+        {'id': 12, 'name': 'Unsecure storage', 'category': 'Information disclosure', 'probability': 0.7,
+         'monetary_amount': 1500}, {'id': 13, 'name': 'Malware (data theft)',
+                                    'category': 'Information disclosure', 'probability': 0.4,
+                                    'monetary_amount': 2000}]},
+    {'id': 6, 'name': "PC's unavailability", 'category': 'Denial of service', 'probability': 0.5,
+     'monetary_amount': 3000}, {'id': 7, 'name': 'Compromised data', 'category': 'Elevation of privilege',
+                                'has_children': [{'id': 14, 'name': 'Violated authorisation',
+                                                  'category': 'Elevation of privilege',
+                                                  'probability': 0.4, 'monetary_amount': 5000}]}
+]
